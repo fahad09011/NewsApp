@@ -3,6 +3,12 @@ import NewsItem from "./NewsItem";
 import "../App.css";
 import Spinner from "./Spinner";
 export default class News extends Component {
+  static defaultProps = {
+    country: 'us',
+    pageSize: 5,
+    category: 'general',
+  };
+  static Props
   constructor() {
     super();
     console.log("Hey, im constructor.");
@@ -17,7 +23,7 @@ export default class News extends Component {
   async componentDidMount() {
     this.setState({ loading: true });
     let response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=us&apiKey=3665460313894fefbfec4093fa9f81c5&page=${this.state.page}&pageSize=${this.props.pageSize}`
+      `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3665460313894fefbfec4093fa9f81c5&page=${this.state.page}&pageSize=${this.props.pageSize}`
     );
     let news = await response.json();
     console.log(news);
@@ -30,7 +36,7 @@ export default class News extends Component {
   handlePreviousClick = async () => {
     this.setState({ loading: true });
     let response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=us&apiKey=3665460313894fefbfec4093fa9f81c5&page=${
+      `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3665460313894fefbfec4093fa9f81c5&page=${
         this.state.page - 1
       }&pageSize=${this.props.pageSize}`
     );
@@ -53,7 +59,7 @@ export default class News extends Component {
       this.setState({ page: this.state.page + 1 });
       this.setState({ loading: true });
       let response = await fetch(
-        `https://newsapi.org/v2/top-headlines?country=us&apiKey=3665460313894fefbfec4093fa9f81c5&page=${
+        `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3665460313894fefbfec4093fa9f81c5&page=${
           this.state.page + 1
         }&pageSize=${this.props.pageSize}`
       );
@@ -66,7 +72,7 @@ export default class News extends Component {
     }
   };
   render() {
-    let { pageSize } = this.props;
+    let { pageSize , country , category} = this.props;
     return (
       <div id="newsContainer" className="container my-3">
         <h2 className="text-center">NewsMonkeys - Headlines</h2>
