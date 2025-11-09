@@ -1,0 +1,16 @@
+ #root {
+  padding: 0;
+  margin: 0;
+     box-sizing: border-box;
+ }
+
+ #newsContainer{
+  background-color: aqua;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* gap: 5px; */
+ }
+ .newsItemContainer{
+  background-color: bisque;
+  border: 1px solid red;
+ }
