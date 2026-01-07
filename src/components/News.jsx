@@ -4,14 +4,13 @@ import "../App.css";
 import Spinner from "./Spinner";
 export default class News extends Component {
   static defaultProps = {
-    country: 'us',
+    country: "us",
     pageSize: 5,
-    category: 'general',
+    category: "general",
   };
-  static Props
   constructor() {
     super();
-    console.log("Hey, im constructor.");
+    //console.log("Hey, im constructor.");
     this.state = {
       articles: [],
       loading: false,
@@ -20,76 +19,65 @@ export default class News extends Component {
     };
   }
 
-  async componentDidMount() {
+  fetchNews = async (page, pageSize) => {
     this.setState({ loading: true });
     let response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3665460313894fefbfec4093fa9f81c5&page=${this.state.page}&pageSize=${this.props.pageSize}`
+      `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3665460313894fefbfec4093fa9f81c5&page=${page}&pageSize=${pageSize}`
     );
     let news = await response.json();
-    console.log(news);
+    console.log(news.totalResults);
     this.setState({
       articles: news.articles,
       totalResults: news.totalResults,
+      page,
       loading: false,
     });
+  };
+
+  async componentDidMount() {
+    this.fetchNews(this.state.page, this.props.pageSize);
   }
+
   handlePreviousClick = async () => {
-    this.setState({ loading: true });
-    let response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3665460313894fefbfec4093fa9f81c5&page=${
-        this.state.page - 1
-      }&pageSize=${this.props.pageSize}`
-    );
-    let news = await response.json();
-    console.log(news);
-    this.setState({
-      articles: news.articles,
-      loading: false,
-    });
-    this.setState({ page: this.state.page - 1 });
+    let prevPage = this.state.page - 1;
+    if (prevPage < 1) {
+      return;
+    } else {
+      this.fetchNews(prevPage, this.props.pageSize);
+    }
   };
 
   handleNextClick = async () => {
+    let nextPage = this.state.page + 1;
     if (
       this.state.page >=
       Math.ceil(this.state.totalResults / this.props.pageSize)
     ) {
       return;
     } else {
-      this.setState({ page: this.state.page + 1 });
-      this.setState({ loading: true });
-      let response = await fetch(
-        `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3665460313894fefbfec4093fa9f81c5&page=${
-          this.state.page + 1
-        }&pageSize=${this.props.pageSize}`
-      );
-      let news = await response.json();
-      console.log(news);
-      this.setState({
-        articles: news.articles,
-        loading: false,
-      });
+      this.fetchNews(nextPage, this.props.pageSize);
     }
   };
   render() {
-    let { pageSize , country , category} = this.props;
+    // let { pageSize, country, category } = this.props;
     return (
       <div id="newsContainer" className="container my-3">
         <h2 className="text-center">NewsMonkeys - Headlines</h2>
         {this.state.loading && <Spinner />}
         <div className="row">
-          {!this.state.loading && this.state.articles.map((article) => {
-            return (
-              <div className="col-md-4" key={article.url}>
-                <NewsItem
-                  title={article.title}
-                  description={article.description}
-                  imgURL={article.urlToImage}
-                  readMore={article.url}
-                />
-              </div>
-            );
-          })}
+          {!this.state.loading &&
+            this.state.articles.map((article) => {
+              return (
+                <div className="col-md-4" key={article.url}>
+                  <NewsItem
+                    title={article.title}
+                    description={article.description}
+                    imgURL={article.urlToImage}
+                    readMore={article.url}
+                  />
+                </div>
+              );
+            })}
         </div>
 
         <div className="d-flex justify-content-around">
@@ -101,6 +89,7 @@ export default class News extends Component {
           >
             &#8592;Previous
           </button>
+
           <button
             type="button"
             className="btn btn-primary"
