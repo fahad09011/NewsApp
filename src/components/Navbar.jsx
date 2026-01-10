@@ -21,17 +21,16 @@ export default class Navbar extends Component {
         </li>
         <li className="nav-item dropdown">
           <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            News Categories
+         Categories
           </a>
           <ul className="dropdown-menu">
             <li><a className="dropdown-item" href="#">Sports</a></li>
+            <li><hr className="dropdown-divider"></hr></li>
             <li><a className="dropdown-item" href="#">Entertainment</a></li>
             <li><hr className="dropdown-divider"></hr></li>
             <li><a className="dropdown-item" href="#">Bussines</a></li>
             <li><hr className="dropdown-divider"></hr></li>
             <li><a className="dropdown-item" href="#">Politics</a></li>
-            <li><hr className="dropdown-divider"></hr></li>
-            <li><a className="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
         

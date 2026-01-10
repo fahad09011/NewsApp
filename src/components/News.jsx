@@ -1,13 +1,21 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+
 import NewsItem from "./NewsItem";
 import "../App.css";
 import Spinner from "./Spinner";
 export default class News extends Component {
+  // default props, if no props provided then these will be use
   static defaultProps = {
     country: "us",
     pageSize: 5,
     category: "general",
   };
+  static propTypes ={
+  country: PropTypes.string,
+  pageSize: PropTypes.number,
+  category: PropTypes.string,
+  }
   constructor() {
     super();
     //console.log("Hey, im constructor.");
@@ -19,10 +27,10 @@ export default class News extends Component {
     };
   }
 
-  fetchNews = async (page, pageSize) => {
+  fetchNews = async (country, category, page, pageSize) => {
     this.setState({ loading: true });
     let response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=3665460313894fefbfec4093fa9f81c5&page=${page}&pageSize=${pageSize}`
+      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=3665460313894fefbfec4093fa9f81c5&page=${page}&pageSize=${pageSize} `
     );
     let news = await response.json();
     console.log(news.totalResults);
@@ -35,7 +43,7 @@ export default class News extends Component {
   };
 
   async componentDidMount() {
-    this.fetchNews(this.state.page, this.props.pageSize);
+    this.fetchNews(this.props.country , this.props.category, this.state.page, this.props.pageSize);
   }
 
   handlePreviousClick = async () => {
@@ -43,19 +51,19 @@ export default class News extends Component {
     if (prevPage < 1) {
       return;
     } else {
-      this.fetchNews(prevPage, this.props.pageSize);
+      this.fetchNews(this.props.country, this.props.category, prevPage, this.props.pageSize);
     }
   };
 
   handleNextClick = async () => {
-    let nextPage = this.state.page + 1;
+    const nextPage = this.state.page + 1;
     if (
       this.state.page >=
       Math.ceil(this.state.totalResults / this.props.pageSize)
     ) {
       return;
     } else {
-      this.fetchNews(nextPage, this.props.pageSize);
+      this.fetchNews(this.props.country, this.props.category, nextPage, this.props.pageSize);
     }
   };
   render() {
