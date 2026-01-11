@@ -33,7 +33,7 @@ export default class News extends Component {
       `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=3665460313894fefbfec4093fa9f81c5&page=${page}&pageSize=${pageSize} `
     );
     let news = await response.json();
-    console.log(news.totalResults);
+    console.log(news);
     this.setState({
       articles: news.articles,
       totalResults: news.totalResults,
@@ -45,7 +45,19 @@ export default class News extends Component {
   async componentDidMount() {
     this.fetchNews(this.props.country , this.props.category, this.state.page, this.props.pageSize);
   }
-
+  async componentDidUpdate(prevProps){
+    if (
+    prevProps.category !== this.props.category ||
+    prevProps.country !== this.props.country
+  ) {
+    this.fetchNews(
+      this.props.country,
+      this.props.category,
+      1,
+      this.props.pageSize
+    );
+  }
+  }
   handlePreviousClick = async () => {
     let prevPage = this.state.page - 1;
     if (prevPage < 1) {

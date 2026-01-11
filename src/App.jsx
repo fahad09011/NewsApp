@@ -1,16 +1,69 @@
-import { useState } from 'react'
-import './App.css'
-import React, { Component } from 'react'
-import Navbar from './components/Navbar'
-import News from './components/News'    
+import { useState } from "react";
+import "./App.css";
+import React, { Component } from "react";
+import Navbar from "./components/Navbar";
+import News from "./components/News";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 export default class App extends Component {
   render() {
     return (
       <>
-      <Navbar/>
-      <News pageSize={5} country={'us'} category={'health'}/>
+        <Router>
+          <Navbar />
+
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <News pageSize={5} country={"us"} category={"general"} />
+              }
+            />
+            <Route
+              path="/sports"
+              element={
+                <News pageSize={5} country={"us"} category={"sports"} />
+              }
+            />
+            <Route
+              path="/health"
+              element={
+                <News pageSize={5} country={"us"} category={"health"} />
+              }
+            />
+            <Route
+              path="/science"
+              element={
+                <News pageSize={5} country={"us"} category={"science"} />
+              }
+            />
+            <Route
+              path="/entertainment"
+              element={
+                <News pageSize={5} country={"us"} category={"entertainment"} />
+              }
+            />
+            <Route
+              path="/politics"
+              element={
+                <News pageSize={5} country={"us"} category={"politics"} />
+              }
+            />
+            <Route
+              path="/business"
+              element={
+                <News pageSize={5} country={"us"} category={"business"} />
+              }
+            />
+            <Route
+              path="/technology"
+              element={
+                <News pageSize={5} country={"us"} category={"technology"} />
+              }
+            />
+          </Routes>
+        </Router>
       </>
-    )
+    );
   }
 }

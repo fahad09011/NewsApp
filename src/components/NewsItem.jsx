@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import defaultImage from "../assets/newsImg.webp";
+
 import "../App.css";
 export default class NewsItem extends Component {
   render() {
@@ -6,7 +8,7 @@ export default class NewsItem extends Component {
     return (
       <div className="newsItemContainer my-3">
         <div className="card">
-          <img src={!imgURL ? "https://img.digitimes.com/newsshow/20251013pd201_files/1_b.jpg" : imgURL} className="card-img-top" alt="image" />
+          <img src={imgURL ? imgURL : defaultImage} className="card-img-top" alt="image" />
           <div className="card-body">
             <h5 className="card-title">{title}</h5>
             <p className="card-text">{description}</p>
