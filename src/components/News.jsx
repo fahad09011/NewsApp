@@ -40,16 +40,20 @@ export default class News extends Component {
       page,
       loading: false,
     });
+    localStorage.setItem("newpage", page);
   };
 
   async componentDidMount() {
-    this.fetchNews(this.props.country , this.props.category, this.state.page, this.props.pageSize);
+    const savedPage = Number(localStorage.getItem("newpage") || 1);
+    this.fetchNews(this.props.country , this.props.category, savedPage, this.props.pageSize);
   }
+
   async componentDidUpdate(prevProps){
     if (
     prevProps.category !== this.props.category ||
     prevProps.country !== this.props.country
   ) {
+    localStorage.removeItem("newPage");
     this.fetchNews(
       this.props.country,
       this.props.category,

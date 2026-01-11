@@ -45,7 +45,7 @@ export default class NewsItem extends Component {
             <p className="card-text">{description}</p>
             <p className="card-text">
               <small className="text-muted">
-                By {author} on {this.formatDate(publishedDate)} <br/>Source: {source}
+                By {author ? author : "Unknown"} on {this.formatDate(publishedDate)} <br/>Source: {source ? source : "Unknown"}
               </small>
             </p>
 
