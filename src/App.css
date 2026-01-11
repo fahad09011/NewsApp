@@ -14,3 +14,10 @@
   background-color: bisque;
   border: 1px solid red;
  }
+ .card-body{
+    display: flex;
+    flex-direction: column;
+ }
+ .readMoreButton{
+    align-self: flex-end;
+ }
