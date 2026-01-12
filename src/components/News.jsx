@@ -7,6 +7,7 @@ import Spinner from "./Spinner";
 import NewsGrid from "./NewsGrid";
 import Pagination from "./Pagination";
 import HeroNews from "./HeroNews";
+import CategoriesPreview from "./CategoriesPreview";
 export default class News extends Component {
   // default props, if no props provided then these will be use
   static defaultProps = {
@@ -158,8 +159,7 @@ export default class News extends Component {
           handlePreviousClick={this.handlePreviousClick}
           handleNextClick={this.handleNextClick}
         />
-      
-
+      <CategoriesPreview/>
       </div>
     );
   }

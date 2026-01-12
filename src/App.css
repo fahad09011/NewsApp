@@ -35,14 +35,14 @@
    align-items: center;
    border: 3px solid red;
    /* width: 90%; */
-   height: 100%;
+   /* height: 100%; */
    margin: 0 auto;
    
  }
  .cardCoontainer{
    display: flex;
    flex-direction: row;
-   height: 80%;
+   /* height: 80%; */
    width: 100%;
    border: 2px solid yellow;
  }
@@ -109,3 +109,96 @@
 
 
 /* Category preview component */
+/* Category preview component */
+.categoryPreviewSection {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.categoryPreviewContainer {
+  width: 100%;
+  /* max-width: 1200px; */
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 220px;
+  gap: 12px;
+}
+
+/* Big tile */
+.categ1 {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+/* Normal tiles */
+.categ2,
+.categ3,
+.categ4 {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+.categ5{
+  grid-column: span 2;
+}
+
+.categ1 {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+/* Normal tiles */
+.categ1,
+.categ2,
+.categ3,
+.categ4,
+.categ5{
+  cursor: pointer;
+}
+
+/* Image styling */
+.previewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.categ4{
+  position: relative;
+  z-index: 4;
+}
+.previewButton{
+  position: relative;
+  position:absolute;
+  text-decoration: none;
+  opacity: 1;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: x-large;
+  font-style: oblique;
+   transition: opacity 0.2s ease-in-out;
+   z-index: 3;
+}
+
+.previewButton::before{
+content: "";
+position: absolute;
+width: 100px;
+height: 5px;
+margin-top: 5px;
+z-index: 2;
+background-color: yellow;
+transition: width 0.4s ease-in-out;
+bottom: 0;
+}
+.previewButton:hover::before{
+  width: 200px;
+    transition: width 0.4s ease-in-out;
+
+}
+.categ4:hover .previewButton{
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+}
