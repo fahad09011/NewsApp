@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 import NewsItem from "./NewsItem";
 import "../App.css";
 import Spinner from "./Spinner";
+import NewsGrid from "./NewsGrid";
+import Pagination from "./Pagination";
+import HeroNews from "./HeroNews";
 export default class News extends Component {
   // default props, if no props provided then these will be use
   static defaultProps = {
@@ -11,14 +14,14 @@ export default class News extends Component {
     pageSize: 5,
     category: "general",
   };
-  static propTypes ={
-  country: PropTypes.string,
-  pageSize: PropTypes.number,
-  category: PropTypes.string,
-  }
-  constructor() {
-    super();
-    //console.log("Hey, im constructor.");
+  static propTypes = {
+    country: PropTypes.string,
+    pageSize: PropTypes.number,
+    category: PropTypes.string,
+  };
+  constructor(props) {
+    super(props);
+
     this.state = {
       articles: [],
       loading: false,
@@ -26,14 +29,38 @@ export default class News extends Component {
       totalResults: "",
     };
   }
+  capitalizer = (string) => {
+    return string ? string[0].toUpperCase() + string.slice(1) : "";
+  };
 
+  updateTitle = () => {
+    document.title = `${this.capitalizer(this.props.category)} - NewsMonkey`;
+  };
+  formatDate = (publishedDate) => {
+      const date = new Date(publishedDate);
+      const now = new Date();
+      const minutesDifference = now - date;
+      const minutes = minutesDifference / (1000 * 60 * 60);
+      const hoursdifference = minutesDifference / (1000 * 60);
+      if (hoursdifference < 1) {
+        return `${Math.floor(minutes)} minutes ago`;
+      } else if (hoursdifference < 24) {
+        return `${Math.floor(hoursdifference)} hours ago`;
+      } else {
+        return date.toLocaleDateString(undefined, {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      }
+    };
   fetchNews = async (country, category, page, pageSize) => {
     this.setState({ loading: true });
     let response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=3665460313894fefbfec4093fa9f81c5&page=${page}&pageSize=${pageSize} `
+      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=f50de30b3cbe4d3484396514bf75b5e3&page=${page}&pageSize=${pageSize} `
     );
     let news = await response.json();
-    console.log(news);
+
     this.setState({
       articles: news.articles,
       totalResults: news.totalResults,
@@ -44,30 +71,43 @@ export default class News extends Component {
   };
 
   async componentDidMount() {
+    this.updateTitle();
     const savedPage = Number(localStorage.getItem("newpage") || 1);
-    this.fetchNews(this.props.country , this.props.category, savedPage, this.props.pageSize);
-  }
-
-  async componentDidUpdate(prevProps){
-    if (
-    prevProps.category !== this.props.category ||
-    prevProps.country !== this.props.country
-  ) {
-    localStorage.removeItem("newPage");
     this.fetchNews(
       this.props.country,
       this.props.category,
-      1,
+      savedPage,
       this.props.pageSize
-    );
+    );   
   }
+
+  async componentDidUpdate(prevProps) {
+    this.updateTitle();
+
+    if (
+      prevProps.category !== this.props.category ||
+      prevProps.country !== this.props.country
+    ) {
+      localStorage.removeItem("newpage");
+      this.fetchNews(
+        this.props.country,
+        this.props.category,
+        1,
+        this.props.pageSize
+      );
+    }
   }
   handlePreviousClick = async () => {
     let prevPage = this.state.page - 1;
     if (prevPage < 1) {
       return;
     } else {
-      this.fetchNews(this.props.country, this.props.category, prevPage, this.props.pageSize);
+      this.fetchNews(
+        this.props.country,
+        this.props.category,
+        prevPage,
+        this.props.pageSize
+      );
     }
   };
 
@@ -79,56 +119,47 @@ export default class News extends Component {
     ) {
       return;
     } else {
-      this.fetchNews(this.props.country, this.props.category, nextPage, this.props.pageSize);
+      this.fetchNews(
+        this.props.country,
+        this.props.category,
+        nextPage,
+        this.props.pageSize
+      );
     }
   };
   render() {
-    // let { pageSize, country, category } = this.props;
+
+   const heroArticle = this.props.category == "general" && this.state.articles.length > 0 ? this.state.articles[0] : null;
+
+    const gridArticle = this.props.category == "general" ? this.state.articles.slice(1) : this.state.articles ;
     return (
-      <div id="newsContainer" className="container my-3">
-        <h2 className="text-center">NewsMonkeys - Headlines</h2>
+      // remove container class from newsContainer
+      <div id="newsContainer" className="my-3">
+              {heroArticle && (
+  <HeroNews
+    title={heroArticle.title}
+    description={heroArticle.description}
+    imgURL={heroArticle.urlToImage}
+    readMore={heroArticle.url}
+    author={heroArticle.author}
+    publishedDate={this.formatDate(heroArticle.publishedAt)}
+    source={heroArticle.source.name}
+  />
+)}
+        <h2 className="text-center">
+          NewsMonkey - Top {this.capitalizer(this.props.category)} Headlines
+        </h2>
         {this.state.loading && <Spinner />}
-        <div className="row">
-          {!this.state.loading &&
-            this.state.articles.map((article) => {
-              return (
-                <div className="col-md-4" key={article.url}>
-                  <NewsItem
-                    title={article.title}
-                    description={article.description}
-                    imgURL={article.urlToImage}
-                    readMore={article.url}
-                    author={article.author}
-                    publishedDate={article.publishedAt}
-                    source={article.source.name}
-                  />
-                </div>
-              );
-            })}
-        </div>
+        {!this.state.loading && <NewsGrid articles={gridArticle} formatDate={this.formatDate} />}
+        <Pagination
+          page={this.state.page}
+          totalResults={this.state.totalResults}
+          pageSize={this.props.pageSize}
+          handlePreviousClick={this.handlePreviousClick}
+          handleNextClick={this.handleNextClick}
+        />
+      
 
-        <div className="d-flex justify-content-around">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={this.handlePreviousClick}
-            disabled={this.state.page <= 1}
-          >
-            &#8592;Previous
-          </button>
-
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={this.handleNextClick}
-            disabled={
-              this.state.page >=
-              Math.ceil(this.state.totalResults / this.props.pageSize)
-            }
-          >
-            Next&#8594;
-          </button>
-        </div>
       </div>
     );
   }

@@ -8,14 +8,14 @@ export default class Navbar extends Component {
       <>
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
   <div className="container-fluid">
-    <Link className="navbar-brand" to="/">NewsMonkey</Link>
+    <Link className="navbar-brand" to="/general">NewsMonkey</Link>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span className="navbar-toggler-icon"></span>
     </button>
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         <li className="nav-item">
-          <a className="nav-link active" aria-current="page" to="/home">Home</a>
+          <Link className="nav-link active" aria-current="page" to="/general">Home</Link>
         </li>
         <li className="nav-item">
           <a className="nav-link" to="/about">About</a>
@@ -38,6 +38,8 @@ export default class Navbar extends Component {
             <li><Link className="dropdown-item" to="/business">Business</Link></li>
             <li><hr className="dropdown-divider"></hr></li>
             <li><Link className="dropdown-item" to="/technology">Technology</Link></li>
+            <li><hr className="dropdown-divider"></hr></li>
+            <li><Link className="dropdown-item" to="/general">General</Link></li>
           </ul>
         </li>
         

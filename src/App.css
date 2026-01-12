@@ -6,9 +6,14 @@
 
  #newsContainer{
   background-color: aqua;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* gap: 5px; */
+    width: 90%;
+    border: 2px solid darkblue;
+    padding: 20px;
+    margin: 0 auto;
+    /* height: 50vw; */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
  }
  .newsItemContainer{
   background-color: bisque;
@@ -21,3 +26,86 @@
  .readMoreButton{
     align-self: flex-end;
  }
+
+ /* Hero News Component */
+ .heroNewsContainer{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   border: 3px solid red;
+   /* width: 90%; */
+   height: 100%;
+   margin: 0 auto;
+   
+ }
+ .cardCoontainer{
+   display: flex;
+   flex-direction: row;
+   height: 80%;
+   width: 100%;
+   border: 2px solid yellow;
+ }
+ .card-body{
+   display: flex;
+   justify-content: center;
+   align-content: center;
+   flex: 0 0 40%;
+   border: 2px solid brown;
+ }
+ .heroImageContainer {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  flex: 0 0 60%;
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 0;
+  border: 3px solid fuchsia;
+}
+
+.heroImageContainer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.heroImageContainer:hover::before{
+  opacity: 1;
+}
+
+.heroImageContainer:hover .heroImage {
+  transform: scale(1.03);
+  transition: transform 0.4s ease;
+}
+
+.HeroreadMoreButton{
+   z-index: 2;
+   top: 50%;
+   left: 45%;
+   opacity: 0;
+   position: absolute;
+     transition: opacity 0.25s ease-in-out, translate(-50%, -50%);;
+
+   
+}
+.heroImageContainer:hover .HeroreadMoreButton{
+   opacity: 0.8;
+  transition: opacity 0.4s ease-in-out;
+}
+
+
+
+
+
+/* Category preview component */

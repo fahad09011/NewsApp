@@ -2,26 +2,8 @@ import React, { Component } from "react";
 import defaultImage from "../assets/newsImg.webp";
 
 import "../App.css";
-import { redirectDocument } from "react-router-dom";
 export default class NewsItem extends Component {
-  formatDate = (publishedDate) => {
-    const date = new Date(publishedDate);
-    const now = new Date();
-    const minutesDifference = now - date;
-    const minutes = minutesDifference / (1000 * 60 * 60);
-    const hoursdifference = minutesDifference / (1000 * 60);
-    if (hoursdifference < 1) {
-      return `${Math.floor(minutes)} minutes ago`;
-    } else if (hoursdifference < 24) {
-      return `${Math.floor(hoursdifference)} hours ago`;
-    } else {
-      return date.toLocaleDateString(undefined, {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      });
-    }
-  };
+  
   render() {
     let {
       title,
@@ -45,7 +27,7 @@ export default class NewsItem extends Component {
             <p className="card-text">{description}</p>
             <p className="card-text">
               <small className="text-muted">
-                By {author ? author : "Unknown"} on {this.formatDate(publishedDate)} <br/>Source: {source ? source : "Unknown"}
+                By {author ? author : "Unknown"} on {publishedDate} <br/>Source: {source ? source : "Unknown"}
               </small>
             </p>
 

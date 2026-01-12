@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import Navbar from "./components/Navbar";
 import News from "./components/News";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HeroNews from "./components/HeroNews";
 
 export default class App extends Component {
   render() {
@@ -11,10 +12,9 @@ export default class App extends Component {
       <>
         <Router>
           <Navbar />
-
           <Routes>
             <Route
-              path="/"
+              path="/general"
               element={
                 <News pageSize={5} country={"us"} category={"general"} />
               }
@@ -63,6 +63,8 @@ export default class App extends Component {
             />
           </Routes>
         </Router>
+
+      
       </>
     );
   }
