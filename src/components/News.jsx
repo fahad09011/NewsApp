@@ -38,27 +38,27 @@ export default class News extends Component {
     document.title = `${this.capitalizer(this.props.category)} - NewsMonkey`;
   };
   formatDate = (publishedDate) => {
-      const date = new Date(publishedDate);
-      const now = new Date();
-      const minutesDifference = now - date;
-      const minutes = minutesDifference / (1000 * 60 * 60);
-      const hoursdifference = minutesDifference / (1000 * 60);
-      if (hoursdifference < 1) {
-        return `${Math.floor(minutes)} minutes ago`;
-      } else if (hoursdifference < 24) {
-        return `${Math.floor(hoursdifference)} hours ago`;
-      } else {
-        return date.toLocaleDateString(undefined, {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        });
-      }
-    };
+    const date = new Date(publishedDate);
+    const now = new Date();
+    const minutesDifference = now - date;
+    const minutes = minutesDifference / (1000 * 60 * 60);
+    const hoursdifference = minutesDifference / (1000 * 60);
+    if (hoursdifference < 1) {
+      return `${Math.floor(minutes)} minutes ago`;
+    } else if (hoursdifference < 24) {
+      return `${Math.floor(hoursdifference)} hours ago`;
+    } else {
+      return date.toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    }
+  };
   fetchNews = async (country, category, page, pageSize) => {
     this.setState({ loading: true });
     let response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=f50de30b3cbe4d3484396514bf75b5e3&page=${page}&pageSize=${pageSize} `
+      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=075a6be8faa4477c9550927c2e8d4c5a&page=${page}&pageSize=${pageSize} `
     );
     let news = await response.json();
 
@@ -79,7 +79,7 @@ export default class News extends Component {
       this.props.category,
       savedPage,
       this.props.pageSize
-    );   
+    );
   }
 
   async componentDidUpdate(prevProps) {
@@ -129,29 +129,38 @@ export default class News extends Component {
     }
   };
   render() {
+    const heroArticle =
+      this.props.category == "general" && this.state.articles.length > 0
+        ? this.state.articles[0]
+        : null;
 
-   const heroArticle = this.props.category == "general" && this.state.articles.length > 0 ? this.state.articles[0] : null;
-
-    const gridArticle = this.props.category == "general" ? this.state.articles.slice(1) : this.state.articles ;
+    const gridArticle =
+      this.props.category == "general"
+        ? this.state.articles.slice(1)
+        : this.state.articles;
     return (
       // remove container class from newsContainer
       <div id="newsContainer" className="my-3">
-              {heroArticle && (
-  <HeroNews
-    title={heroArticle.title}
-    description={heroArticle.description}
-    imgURL={heroArticle.urlToImage}
-    readMore={heroArticle.url}
-    author={heroArticle.author}
-    publishedDate={this.formatDate(heroArticle.publishedAt)}
-    source={heroArticle.source.name}
-  />
-)}
+       
+        {this.props.category == "general" ? <CategoriesPreview /> : ""}
+        {heroArticle && (
+          <HeroNews
+            title={heroArticle.title}
+            description={heroArticle.description}
+            imgURL={heroArticle.urlToImage}
+            readMore={heroArticle.url}
+            author={heroArticle.author}
+            publishedDate={this.formatDate(heroArticle.publishedAt)}
+            source={heroArticle.source.name}
+          />
+        )}
         <h2 className="text-center">
           NewsMonkey - Top {this.capitalizer(this.props.category)} Headlines
         </h2>
         {this.state.loading && <Spinner />}
-        {!this.state.loading && <NewsGrid articles={gridArticle} formatDate={this.formatDate} />}
+        {!this.state.loading && (
+          <NewsGrid articles={gridArticle} formatDate={this.formatDate} />
+        )}
         <Pagination
           page={this.state.page}
           totalResults={this.state.totalResults}
@@ -159,7 +168,6 @@ export default class News extends Component {
           handlePreviousClick={this.handlePreviousClick}
           handleNextClick={this.handleNextClick}
         />
-      <CategoriesPreview/>
       </div>
     );
   }
