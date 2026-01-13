@@ -15,7 +15,7 @@ export default class HeroNews extends Component {
     return (
       <div>
         <div className="heroNewsContainer my-3">
-          <div className="card cardCoontainer">
+          <div className="heroCard cardCoontainer">
             <div className="heroImageContainer">
             <img src={imgURL ? imgURL : image} className="heroImage" alt="image" />
               <a
@@ -25,7 +25,7 @@ export default class HeroNews extends Component {
               >
                 Read More
               </a></div>
-            <div className="card-body">
+            <div className="card-body HeroCardBbody">
               <h5 className="card-title">
                 {title}
               </h5>

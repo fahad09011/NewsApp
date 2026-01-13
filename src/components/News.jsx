@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
+import InfiniteScroll from "react-infinite-scroll-component";
 import NewsItem from "./NewsItem";
 import "../App.css";
 import Spinner from "./Spinner";
@@ -27,7 +27,7 @@ export default class News extends Component {
       articles: [],
       loading: false,
       page: 1,
-      totalResults: "",
+      totalResults: 0,
     };
   }
   capitalizer = (string) => {
@@ -56,48 +56,72 @@ export default class News extends Component {
     }
   };
   fetchNews = async (country, category, page, pageSize) => {
-    this.setState({ loading: true });
+    if (this.state.loading) return;
+        this.setState({ loading: true });
+
     let response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=075a6be8faa4477c9550927c2e8d4c5a&page=${page}&pageSize=${pageSize} `
+      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=3665460313894fefbfec4093fa9f81c5&page=${page}&pageSize=${pageSize} `
     );
     let news = await response.json();
 
     this.setState({
-      articles: news.articles,
+      // for button paggination 
+      // articles: news.articles
+      articles: 
+      page === 1 ? news.articles : this.state.articles.concat(news.articles),
       totalResults: news.totalResults,
       page,
       loading: false,
-    });
-    localStorage.setItem("newpage", page);
+    },
+    ()=>{
+      if (
+            !this.hasScrollbar() &&
+            this.state.page <
+              Math.ceil(this.state.totalResults / this.props.pageSize)
+          ) {
+            this.fetchMoreData();
+          }
+
+    }
+    );
+    // for button paggination
+    // localStorage.setItem("newpage", page);
   };
 
   async componentDidMount() {
     this.updateTitle();
-    const savedPage = Number(localStorage.getItem("newpage") || 1);
+    // const savedPage = Number(localStorage.getItem("newpage") || 1);
     this.fetchNews(
       this.props.country,
       this.props.category,
-      savedPage,
+      1,
+      // savedPage,
       this.props.pageSize
     );
   }
 
-  async componentDidUpdate(prevProps) {
+    async componentDidUpdate(prevProps) {
     this.updateTitle();
 
     if (
       prevProps.category !== this.props.category ||
       prevProps.country !== this.props.country
     ) {
-      localStorage.removeItem("newpage");
-      this.fetchNews(
+      // localStorage.removeItem("newpage");
+      this.setState(
+        { articles: [], page: 1, totalResults: 0 },
+      ()=>{this.fetchNews(
         this.props.country,
         this.props.category,
         1,
         this.props.pageSize
       );
     }
+  );
+    }
   }
+
+
   handlePreviousClick = async () => {
     let prevPage = this.state.page - 1;
     if (prevPage < 1) {
@@ -128,6 +152,24 @@ export default class News extends Component {
       );
     }
   };
+
+
+  
+  fetchMoreData = async () => {
+    if(this.state.loading) return;
+    this.fetchNews(
+      this.props.country,
+    this.props.category,
+    this.state.page + 1,
+    this.props.pageSize
+    );
+  };
+
+hasScrollbar = () => {
+  return document.documentElement.scrollHeight > window.innerHeight;
+};
+
+
   render() {
     const heroArticle =
       this.props.category == "general" && this.state.articles.length > 0
@@ -143,6 +185,8 @@ export default class News extends Component {
       <div id="newsContainer" className="my-3">
        
         {this.props.category == "general" ? <CategoriesPreview /> : ""}
+   
+    
         {heroArticle && (
           <HeroNews
             title={heroArticle.title}
@@ -154,20 +198,30 @@ export default class News extends Component {
             source={heroArticle.source.name}
           />
         )}
+
         <h2 className="text-center">
           NewsMonkey - Top {this.capitalizer(this.props.category)} Headlines
         </h2>
-        {this.state.loading && <Spinner />}
-        {!this.state.loading && (
+        <InfiniteScroll
+          dataLength={this.state.articles.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.page < Math.ceil(this.state.totalResults/this.props.pageSize) }
+          loader={<Spinner/>}
+        >
+          <div className="container">
+            {
           <NewsGrid articles={gridArticle} formatDate={this.formatDate} />
-        )}
-        <Pagination
+        }
+        </div>
+        </InfiniteScroll>
+      
+        {/* <Pagination
           page={this.state.page}
           totalResults={this.state.totalResults}
           pageSize={this.props.pageSize}
           handlePreviousClick={this.handlePreviousClick}
           handleNextClick={this.handleNextClick}
-        />
+        /> */}
       </div>
     );
   }

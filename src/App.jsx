@@ -4,9 +4,7 @@ import React, { Component } from "react";
 import Navbar from "./components/Navbar";
 import News from "./components/News";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HeroNews from "./components/HeroNews";
-import Category from "./components/Category";
-import Home from "./components/Home";
+
 
 export default class App extends Component {
   render() {
