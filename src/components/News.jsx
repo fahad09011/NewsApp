@@ -55,14 +55,17 @@ export default class News extends Component {
       });
     }
   };
-  fetchNews = async (country, category, page, pageSize) => {
+  fetchNews = async (country, category, page, pageSize , showTopLoader) => {
+            if(showTopLoader) this.props.setProgress(30);
+
     if (this.state.loading) return;
         this.setState({ loading: true });
+        if(showTopLoader) this.props.setProgress(40);
 
     let response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=3665460313894fefbfec4093fa9f81c5&page=${page}&pageSize=${pageSize} `
-    );
+ `/api/news?category=${category}&page=${page}&pageSize=${pageSize}`    );
     let news = await response.json();
+        if(showTopLoader) this.props.setProgress(80);
 
     this.setState({
       // for button paggination 
@@ -73,6 +76,7 @@ export default class News extends Component {
       page,
       loading: false,
     },
+    
     ()=>{
       if (
             !this.hasScrollbar() &&
@@ -84,6 +88,8 @@ export default class News extends Component {
 
     }
     );
+        if(showTopLoader) this.props.setProgress(100);
+
     // for button paggination
     // localStorage.setItem("newpage", page);
   };
@@ -96,7 +102,8 @@ export default class News extends Component {
       this.props.category,
       1,
       // savedPage,
-      this.props.pageSize
+      this.props.pageSize,
+      false
     );
   }
 
@@ -114,7 +121,8 @@ export default class News extends Component {
         this.props.country,
         this.props.category,
         1,
-        this.props.pageSize
+        this.props.pageSize,
+        true
       );
     }
   );
@@ -131,7 +139,8 @@ export default class News extends Component {
         this.props.country,
         this.props.category,
         prevPage,
-        this.props.pageSize
+        this.props.pageSize,
+        false
       );
     }
   };
@@ -148,7 +157,8 @@ export default class News extends Component {
         this.props.country,
         this.props.category,
         nextPage,
-        this.props.pageSize
+        this.props.pageSize,
+        false
       );
     }
   };
@@ -161,7 +171,8 @@ export default class News extends Component {
       this.props.country,
     this.props.category,
     this.state.page + 1,
-    this.props.pageSize
+    this.props.pageSize,
+    false
     );
   };
 

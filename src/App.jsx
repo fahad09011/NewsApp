@@ -3,10 +3,26 @@ import "./App.css";
 import React, { Component } from "react";
 import Navbar from "./components/Navbar";
 import News from "./components/News";
+import TopLoadingBar from "./components/TopLoadingBar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
 export default class App extends Component {
+  apikey
+    constructor(props) {
+    super(props);
+
+    this.state = {
+      progress: 0,
+    };
+  }
+
+  
+
+setProgress = (value) =>{
+  this.setState({progress: value});
+}
+
   render() {
     return (
       <>
@@ -60,57 +76,56 @@ export default class App extends Component {
               }
             />
           </Routes> */}
-
-
+<TopLoadingBar progress={this.state.progress}/>
           <Routes>
             <Route
               path="/"
               element={
-                <News pageSize={5} country={"us"} category={"general"} />
+                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"general"} />
               }
             />
             <Route
               path="/general"
               element={
-                <News pageSize={5} country={"us"} category={"general"} />
+                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"general"} />
               }
             />
             <Route
               path="/sports"
-              element={<News pageSize={5} country={"us"} category={"sports"} />}
+              element={<News setProgress={this.setProgress} pageSize={5} country={"us"} category={"sports"} />}
             />
             <Route
               path="/health"
-              element={<News pageSize={5} country={"us"} category={"health"} />}
+              element={<News setProgress={this.setProgress} pageSize={5} country={"us"} category={"health"} />}
             />
             <Route
               path="/science"
               element={
-                <News pageSize={5} country={"us"} category={"science"} />
+                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"science"} />
               }
             />
             <Route
               path="/entertainment"
               element={
-                <News pageSize={5} country={"us"} category={"entertainment"} />
+                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"entertainment"} />
               }
             />
             <Route
               path="/politics"
               element={
-                <News pageSize={5} country={"us"} category={"politics"} />
+                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"politics"} />
               }
             />
             <Route
               path="/business"
               element={
-                <News pageSize={5} country={"us"} category={"business"} />
+                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"business"} />
               }
             />
             <Route
               path="/technology"
               element={
-                <News pageSize={5} country={"us"} category={"technology"} />
+                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"technology"} />
               }
             />
           </Routes>
