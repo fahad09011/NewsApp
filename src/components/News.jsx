@@ -65,14 +65,15 @@ export default class News extends Component {
     let response = await fetch(
  `/api/news?category=${category}&page=${page}&pageSize=${pageSize}`    );
     let news = await response.json();
+    const newArticles= Array.isArray(news.articles) ? news.articles : [] ;
         if(showTopLoader) this.props.setProgress(80);
 
     this.setState({
       // for button paggination 
       // articles: news.articles
       articles: 
-      page === 1 ? news.articles : this.state.articles.concat(news.articles),
-      totalResults: news.totalResults,
+      page === 1 ? newArticles : this.state.articles.concat(newArticles),
+      totalResults: news.totalResults || 0,
       page,
       loading: false,
     },
@@ -214,7 +215,7 @@ hasScrollbar = () => {
           NewsMonkey - Top {this.capitalizer(this.props.category)} Headlines
         </h2>
         <InfiniteScroll
-          dataLength={this.state.articles.length}
+          dataLength={this.state.articles?.length || 0}
           next={this.fetchMoreData}
           hasMore={this.state.page < Math.ceil(this.state.totalResults/this.props.pageSize) }
           loader={<Spinner/>}
