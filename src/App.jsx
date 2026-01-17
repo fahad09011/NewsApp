@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from '@vercel/analytics/react';
 import React, { Component } from "react";
 import Navbar from "./components/Navbar";
 import News from "./components/News";
@@ -133,6 +133,8 @@ setProgress = (value) =>{
           </Routes>
         </Router>
                       <SpeedInsights />
+                            <Analytics />
+
       </>
     );
   }
