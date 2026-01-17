@@ -133,7 +133,6 @@ setProgress = (value) =>{
           </Routes>
         </Router>
                       <SpeedInsights />
-                            <Analytics />
 
       </>
     );
