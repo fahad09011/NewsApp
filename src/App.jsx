@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import React, { Component } from "react";
 import Navbar from "./components/Navbar";
 import News from "./components/News";
@@ -130,8 +131,7 @@ setProgress = (value) =>{
             />
           </Routes>
         </Router>
-
-        {/* <Home/> */}
+                      <SpeedInsights />
       </>
     );
   }
