@@ -64,6 +64,8 @@ export default class News extends Component {
 
     let response = await fetch(
  `/api/news?category=${category}&page=${page}&pageSize=${pageSize}`    );
+ console.log("Remaining:", response.headers.get("X-RateLimit-Remaining"));
+console.log("Limit:", response.headers.get("X-RateLimit-Limit"));
     let news = await response.json();
     const newArticles= Array.isArray(news.articles) ? news.articles : [] ;
         if(showTopLoader) this.props.setProgress(80);
