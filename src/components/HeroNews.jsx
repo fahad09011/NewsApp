@@ -14,8 +14,8 @@ export default class HeroNews extends Component {
     } = this.props;
     return (
       <div>
-        <div className="heroNewsContainer my-3">
-          <div className="heroCard cardCoontainer">
+        <div className="heroNewsContainer">
+          <div className="heroCard heroCardCoontainer">
             <div className="heroImageContainer">
             <img src={imgURL ? imgURL : image} className="heroImage" alt="image" />
               <a
@@ -26,10 +26,10 @@ export default class HeroNews extends Component {
                 Read More
               </a></div>
             <div className="card-body HeroCardBbody">
-              <h5 className="card-title">
+              <h5 className="card-title heroCardTitle">
                 {title}
               </h5>
-              <p className="card-text">
+              <p className="card-text heroCardDescription">
                 {description}
               </p>
               <p className="card-text">

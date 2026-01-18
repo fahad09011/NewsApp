@@ -62,8 +62,10 @@ export default class News extends Component {
         this.setState({ loading: true });
         if(showTopLoader) this.props.setProgress(40);
 
-    let response = await fetch(
- `/api/news?category=${category}&page=${page}&pageSize=${pageSize}`    );
+//     let response = await fetch(
+//  `/api/news?category=${category}&page=${page}&pageSize=${pageSize}`    );
+  //   let response = await fetch(
+  //  `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=075a6be8faa4477c9550927c2e8d4c5a&page=${page}&pageSize=${pageSize} `);
     let news = await response.json();
     const newArticles= Array.isArray(news.articles) ? news.articles : [] ;
         if(showTopLoader) this.props.setProgress(80);
@@ -194,11 +196,26 @@ hasScrollbar = () => {
         : this.state.articles;
     return (
       // remove container class from newsContainer
-      <div id="newsContainer" className="my-3">
-       
+      <div id="newsContainer" >
+       {this.props.category === "general" && (
+  <section className="categoryIntro">
+    <h2 className="categoryTitle">📰 Explore News by Category
+</h2>
+    <p className="categorySubtitle">
+      Pick a topic to get the latest headlines instantly
+    </p>
+  </section>
+)}
+
         {this.props.category == "general" ? <CategoriesPreview /> : ""}
-   
-    
+   <div className="sectionDivider" />
+
+        {heroArticle && (
+          <div className="heroIntro">
+            <span className="heroBadhe">Top Story</span>
+            <h2 className="heroHeading">Today's Highlight</h2>
+          </div>
+        )}
         {heroArticle && (
           <HeroNews
             title={heroArticle.title}
@@ -214,17 +231,15 @@ hasScrollbar = () => {
         <h2 className="text-center">
           NewsMonkey - Top {this.capitalizer(this.props.category)} Headlines
         </h2>
-        <InfiniteScroll
+        <InfiniteScroll className="inf"
           dataLength={this.state.articles?.length || 0}
           next={this.fetchMoreData}
           hasMore={this.state.page < Math.ceil(this.state.totalResults/this.props.pageSize) }
           loader={<Spinner/>}
         >
-          <div className="container">
-            {
+        
           <NewsGrid articles={gridArticle} formatDate={this.formatDate} />
-        }
-        </div>
+      
         </InfiniteScroll>
       
         {/* <Pagination

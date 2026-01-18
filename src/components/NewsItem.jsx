@@ -14,6 +14,11 @@ export default class NewsItem extends Component {
       source,
     } = this.props;
     return (
+        <a
+              href={readMore}
+              target="_blank"
+              className="newsReadMoreButton"
+            >
       <div className="newsItemContainer ">
         <div className="card newsCard">
           <div className="imgcontainer">
@@ -33,16 +38,11 @@ export default class NewsItem extends Component {
               </small>
             </p>
 
-            <a
-              href={readMore}
-              target="_blank"
-              className="btn btn-sm btn-primary newsReadMoreButton"
-            >
-              Read More
-            </a>
+          
           </div>
         </div>
       </div>
+            </a>
     );
   }
 }

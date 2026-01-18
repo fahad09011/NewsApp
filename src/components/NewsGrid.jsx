@@ -9,11 +9,11 @@ export default class NewsGrid extends Component {
       formatDate
     } = this.props;
     return (
-      <div className="row">
+      <div className="row gx-3 mx-0  g-3 categoryContainer">
 
           {articles.filter(article => article).map((article) => {
               return (
-                <div className="col-md-4" key={article.url}>
+                <div className="col-md-6 col-xl-4" key={article.url}>
                   <NewsItem
                     title={article.title}
                     description={article.description}
