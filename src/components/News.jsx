@@ -62,8 +62,8 @@ export default class News extends Component {
         this.setState({ loading: true });
         if(showTopLoader) this.props.setProgress(40);
 
-//     let response = await fetch(
-//  `/api/news?category=${category}&page=${page}&pageSize=${pageSize}`    );
+    let response = await fetch(
+ `/api/news?category=${category}&page=${page}&pageSize=${pageSize}`    );
   //   let response = await fetch(
   //  `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=075a6be8faa4477c9550927c2e8d4c5a&page=${page}&pageSize=${pageSize} `);
     let news = await response.json();
