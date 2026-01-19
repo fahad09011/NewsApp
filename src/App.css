@@ -397,3 +397,17 @@ display: var(--webkit-Display);
   }
 }
 
+/* About component */
+.container h1 {
+  font-weight: 700;
+}
+
+.container h4 {
+  margin-top: 25px;
+  font-weight: 600;
+}
+
+.container p {
+  line-height: 1.7;
+  color: #444;
+}

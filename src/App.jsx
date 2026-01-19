@@ -9,6 +9,7 @@ import News from "./components/News";
 import TopLoadingBar from "./components/TopLoadingBar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import About from "./components/About";
 
 
 function NavbarWrapper(props) {
@@ -43,6 +44,8 @@ setProgress = (value) =>{
         
 <TopLoadingBar progress={this.state.progress}/>
           <Routes>
+            <Route path="/about" element={<About />} />
+
             <Route
               path="/search"
               element={
