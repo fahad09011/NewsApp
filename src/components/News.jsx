@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -8,8 +9,12 @@ import NewsGrid from "./NewsGrid";
 import Pagination from "./Pagination";
 import HeroNews from "./HeroNews";
 import CategoriesPreview from "./CategoriesPreview";
+
 export default class News extends Component {
-  
+
+    previousSearchQuery = "";
+  previousCategory = "";
+
   static defaultProps = {
     country: "us",
     pageSize: 5,
@@ -55,10 +60,16 @@ export default class News extends Component {
       });
     }
   };
-  fetchNews = async (country, category, page, pageSize , showTopLoader , searchQuery) => {
+  getSearchQueryFromURL = () => {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("q") || "";
+};
+  fetchNews = async (country, category, page, pageSize , showTopLoader ) => {
+    const searchQuery = this.getSearchQueryFromURL();
+
             if(showTopLoader) this.props.setProgress(30);
 
-    // if (this.state.loading) return;
+    if (this.state.loading) return;
         this.setState({ loading: true });
         if(showTopLoader) this.props.setProgress(40);
 
@@ -66,13 +77,13 @@ export default class News extends Component {
 //     let response = await fetch(
 //  `/api/news?category=${category}&page=${page}&pageSize=${pageSize}`    );
 let url = "";
-if(searchQuery && this.props.searchQuery.trim() !=""){
-      url = `https://newsapi.org/v2/everything?q=${searchQuery}&page=${page}&pageSize=${pageSize}&apiKey=075a6be8faa4477c9550927c2e8d4c5a`;
+if(searchQuery){
+      url = `https://newsapi.org/v2/everything?q=${searchQuery}&page=${page}&pageSize=${pageSize}&apiKey=ffbc067d4c9243d694e987faf5ea127e`;
 
 }
 
     else {
-      url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=075a6be8faa4477c9550927c2e8d4c5a&page=${page}&pageSize=${pageSize} `;
+      url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=ffbc067d4c9243d694e987faf5ea127e&page=${page}&pageSize=${pageSize} `;
     }
     let response = await fetch(url);
    
@@ -106,26 +117,31 @@ if(searchQuery && this.props.searchQuery.trim() !=""){
 
   async componentDidMount() {
     this.updateTitle();
-  
+    this.previousSearchQuery = this.getSearchQueryFromURL();
+    this.previousCategory = this.props.category;
     this.fetchNews(
       this.props.country,
       this.props.category,
       1,
       this.props.pageSize,
-      false,
-      this.props.searchQuery
+      false
+      // this.props.searchQuery
     );
   }
 
-    async componentDidUpdate(prevProps) {
+    async componentDidUpdate() {
     this.updateTitle();
-
+      
+    const currentSearchQuery = this.getSearchQueryFromURL();
+    const currentCategory = this.props.category;
+    const searchChanged = currentSearchQuery !== this.previousSearchQuery
+    const categoryChanged = currentCategory !== this.previousCategory
     if (
-      prevProps.category !== this.props.category ||
-      prevProps.country !== this.props.country ||
-        prevProps.searchQuery !== this.props.searchQuery
+     searchChanged || categoryChanged
 
     ) {
+       this.previousCategory = currentCategory
+      this.previousSearchQuery = currentSearchQuery
       this.setState(
         { articles: [], page: 1, totalResults: 0 },
       ()=>{this.fetchNews(
@@ -133,8 +149,7 @@ if(searchQuery && this.props.searchQuery.trim() !=""){
         this.props.category,
         1,
         this.props.pageSize,
-        true,
-        this.props.searchQuery
+        true
       );
     }
   );
@@ -151,8 +166,8 @@ if(searchQuery && this.props.searchQuery.trim() !=""){
     this.props.category,
     this.state.page + 1,
     this.props.pageSize,
-    false,
-    this.props.searchQuery
+    false
+    // this.props.searchQuery
     );
   };
 
@@ -162,6 +177,8 @@ hasScrollbar = () => {
 
 
   render() {
+      const searchText = this.getSearchQueryFromURL();
+
     const heroArticle =
       this.props.category == "general" && this.state.articles.length > 0
         ? this.state.articles[0]
@@ -184,10 +201,18 @@ hasScrollbar = () => {
   </section>
 )}
 
-        {this.props.category == "general" ? <CategoriesPreview /> : ""}
+
+        {this.props.category == "general" && !searchText ? <CategoriesPreview /> : ""}
    <div className="sectionDivider" />
 
-        {heroArticle && (
+        {searchText && (
+          <div className="heroIntro">
+            <h2 className=" heroHeading heroBadhe">Search results for: </h2>
+            <h5 className="heroBadhe">{this.capitalizer(searchText)}</h5>
+          </div>
+        )}
+        
+          {heroArticle && this.props.category == "general" && !searchText && (
           <div className="heroIntro">
             <span className="heroBadhe">Top Story</span>
             <h2 className="heroHeading">Today's Highlight</h2>

@@ -18,7 +18,8 @@ export default class Navbar extends Component {
    
         handleSubmit = (form) => {
       form.preventDefault();
-      this.props.onSearch(this.state.searchBarText)
+      this.props.navigate(`/search?q=${encodeURIComponent(this.state.searchBarText)}`)
+      // this.props.onSearch(this.state.searchBarText)
     }
     
   render() {
