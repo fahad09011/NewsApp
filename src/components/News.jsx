@@ -9,7 +9,7 @@ import Pagination from "./Pagination";
 import HeroNews from "./HeroNews";
 import CategoriesPreview from "./CategoriesPreview";
 export default class News extends Component {
-  // default props, if no props provided then these will be use
+  
   static defaultProps = {
     country: "us",
     pageSize: 5,
@@ -81,8 +81,7 @@ if(searchQuery && this.props.searchQuery.trim() !=""){
         if(showTopLoader) this.props.setProgress(80);
 
     this.setState({
-      // for button paggination 
-      // articles: news.articles
+     
       articles: 
       page === 1 ? newArticles : this.state.articles.concat(newArticles),
       totalResults: news.totalResults || 0,
@@ -103,18 +102,15 @@ if(searchQuery && this.props.searchQuery.trim() !=""){
     );
         if(showTopLoader) this.props.setProgress(100);
 
-    // for button paggination
-    // localStorage.setItem("newpage", page);
   };
 
   async componentDidMount() {
     this.updateTitle();
-    // const savedPage = Number(localStorage.getItem("newpage") || 1);
+  
     this.fetchNews(
       this.props.country,
       this.props.category,
       1,
-      // savedPage,
       this.props.pageSize,
       false,
       this.props.searchQuery
@@ -130,7 +126,6 @@ if(searchQuery && this.props.searchQuery.trim() !=""){
         prevProps.searchQuery !== this.props.searchQuery
 
     ) {
-      // localStorage.removeItem("newpage");
       this.setState(
         { articles: [], page: 1, totalResults: 0 },
       ()=>{this.fetchNews(
@@ -146,39 +141,6 @@ if(searchQuery && this.props.searchQuery.trim() !=""){
     }
   }
 
-
-  handlePreviousClick = async () => {
-    let prevPage = this.state.page - 1;
-    if (prevPage < 1) {
-      return;
-    } else {
-      this.fetchNews(
-        this.props.country,
-        this.props.category,
-        prevPage,
-        this.props.pageSize,
-        false
-      );
-    }
-  };
-
-  handleNextClick = async () => {
-    const nextPage = this.state.page + 1;
-    if (
-      this.state.page >=
-      Math.ceil(this.state.totalResults / this.props.pageSize)
-    ) {
-      return;
-    } else {
-      this.fetchNews(
-        this.props.country,
-        this.props.category,
-        nextPage,
-        this.props.pageSize,
-        false
-      );
-    }
-  };
 
 
   
@@ -257,13 +219,6 @@ hasScrollbar = () => {
       
         </InfiniteScroll>
       
-        {/* <Pagination
-          page={this.state.page}
-          totalResults={this.state.totalResults}
-          pageSize={this.props.pageSize}
-          handlePreviousClick={this.handlePreviousClick}
-          handleNextClick={this.handleNextClick}
-        /> */}
       </div>
     );
   }
