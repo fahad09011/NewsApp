@@ -55,17 +55,27 @@ export default class News extends Component {
       });
     }
   };
-  fetchNews = async (country, category, page, pageSize , showTopLoader) => {
+  fetchNews = async (country, category, page, pageSize , showTopLoader , searchQuery) => {
             if(showTopLoader) this.props.setProgress(30);
 
-    if (this.state.loading) return;
+    // if (this.state.loading) return;
         this.setState({ loading: true });
         if(showTopLoader) this.props.setProgress(40);
 
-    let response = await fetch(
- `/api/news?category=${category}&page=${page}&pageSize=${pageSize}`    );
-  //   let response = await fetch(
-  //  `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=075a6be8faa4477c9550927c2e8d4c5a&page=${page}&pageSize=${pageSize} `);
+
+//     let response = await fetch(
+//  `/api/news?category=${category}&page=${page}&pageSize=${pageSize}`    );
+let url = "";
+if(searchQuery && this.props.searchQuery.trim() !=""){
+      url = `https://newsapi.org/v2/everything?q=${searchQuery}&page=${page}&pageSize=${pageSize}&apiKey=075a6be8faa4477c9550927c2e8d4c5a`;
+
+}
+
+    else {
+      url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=075a6be8faa4477c9550927c2e8d4c5a&page=${page}&pageSize=${pageSize} `;
+    }
+    let response = await fetch(url);
+   
     let news = await response.json();
     const newArticles= Array.isArray(news.articles) ? news.articles : [] ;
         if(showTopLoader) this.props.setProgress(80);
@@ -106,7 +116,8 @@ export default class News extends Component {
       1,
       // savedPage,
       this.props.pageSize,
-      false
+      false,
+      this.props.searchQuery
     );
   }
 
@@ -115,7 +126,9 @@ export default class News extends Component {
 
     if (
       prevProps.category !== this.props.category ||
-      prevProps.country !== this.props.country
+      prevProps.country !== this.props.country ||
+        prevProps.searchQuery !== this.props.searchQuery
+
     ) {
       // localStorage.removeItem("newpage");
       this.setState(
@@ -125,7 +138,8 @@ export default class News extends Component {
         this.props.category,
         1,
         this.props.pageSize,
-        true
+        true,
+        this.props.searchQuery
       );
     }
   );
@@ -175,7 +189,8 @@ export default class News extends Component {
     this.props.category,
     this.state.page + 1,
     this.props.pageSize,
-    false
+    false,
+    this.props.searchQuery
     );
   };
 

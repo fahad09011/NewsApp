@@ -17,10 +17,13 @@ export default class App extends Component {
 
     this.state = {
       progress: 0,
+      searchQuery: "",
     };
   }
 
-  
+  handleSearch = (query) => {
+    this.setState({searchQuery: query})
+  }
 
 setProgress = (value) =>{
   this.setState({progress: value});
@@ -30,67 +33,20 @@ setProgress = (value) =>{
     return (
       <>
         <Router>
-          <Navbar />
-          {/* <Routes>
-               <Route path="/" element={<Home />} />
-            
-            <Route
-              path="/general"
-              element={
-                <Category  category={"general"} />
-              }
-            />
-            <Route
-              path="/sports"
-              element={<Category  category={"sports"} />}
-            />
-            <Route
-              path="/health"
-              element={<Category  category={"health"} />}
-            />
-            <Route
-              path="/science"
-              element={
-                <Category  category={"science"} />
-              }
-            />
-            <Route
-              path="/entertainment"
-              element={
-                <Category  category={"entertainment"} />
-              }
-            />
-            <Route
-              path="/politics"
-              element={
-                <Category  category={"politics"} />
-              }
-            />
-            <Route
-              path="/business"
-              element={
-                <Category  category={"business"} />
-              }
-            />
-            <Route
-              path="/technology"
-              element={
-                <Category  category={"technology"} />
-              }
-            />
-          </Routes> */}
+          <Navbar onSearch={this.handleSearch}/>
+        
 <TopLoadingBar progress={this.state.progress}/>
           <Routes>
             <Route
               path="/"
               element={
-                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"general"} />
+              <News searchQuery={this.state.searchQuery}  setProgress={this.setProgress} pageSize={5} country={"us"} category={"general"} />
               }
             />
             <Route
               path="/general"
               element={
-                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"general"} />
+              <News searchQuery={this.state.searchQuery}  setProgress={this.setProgress} pageSize={5} country={"us"} category={"general"} />
               }
             />
             <Route
@@ -104,31 +60,31 @@ setProgress = (value) =>{
             <Route
               path="/science"
               element={
-                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"science"} />
+              <News searchQuery={this.state.searchQuery}  setProgress={this.setProgress} pageSize={5} country={"us"} category={"science"} />
               }
             />
             <Route
               path="/entertainment"
               element={
-                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"entertainment"} />
+              <News searchQuery={this.state.searchQuery}  setProgress={this.setProgress} pageSize={5} country={"us"} category={"entertainment"} />
               }
             />
             <Route
               path="/politics"
               element={
-                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"politics"} />
+              <News searchQuery={this.state.searchQuery}  setProgress={this.setProgress} pageSize={5} country={"us"} category={"politics"} />
               }
             />
             <Route
               path="/business"
               element={
-                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"business"} />
+              <News searchQuery={this.state.searchQuery}  setProgress={this.setProgress} pageSize={5} country={"us"} category={"business"} />
               }
             />
             <Route
               path="/technology"
               element={
-                <News setProgress={this.setProgress} pageSize={5} country={"us"} category={"technology"} />
+              <News searchQuery={this.state.searchQuery}  setProgress={this.setProgress} pageSize={5} country={"us"} category={"technology"} />
               }
             />
           </Routes>
