@@ -78,7 +78,7 @@ export default class News extends Component {
 
      let url = `/api/news?&page=${page}&pageSize=${pageSize}`;
     if (searchQuery.trim() !== "") {
-      url += `q=${encodeURIComponent(searchQuery)}`;
+      url += `&q=${encodeURIComponent(searchQuery)}`;
     } else {
       url += `&category=${category}`;
     }
