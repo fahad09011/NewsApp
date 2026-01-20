@@ -73,27 +73,17 @@ export default class News extends Component {
     this.setState({ loading: true });
     if (showTopLoader) this.props.setProgress(40);
 
-    //     let response = await fetch(
-    //  `/api/news?category=${category}&page=${page}&pageSize=${pageSize}`    );
-
-    //  let url = `/api/news?&page=${page}&pageSize=${pageSize}`;
-    // if (searchQuery.trim() !== "") {
-    //   url += `&q=${encodeURIComponent(searchQuery)}`;
-    // } else {
-    //   url += `&category=${category}`;
-    // }
-    
-       let url = "";
+    let url = `/api/news?&page=${page}&pageSize=${pageSize}`;
     if (searchQuery.trim() !== "") {
-      url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(searchQuery)}&page=${page}&pageSize=${pageSize}&apiKey=0a1a360572b04f759b69bdd81a0474fa`;
+      url += `&q=${encodeURIComponent(searchQuery)}`;
     } else {
-      url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=0a1a360572b04f759b69bdd81a0474fa&page=${page}&pageSize=${pageSize} `;
+      url += `&category=${category}`;
     }
 
     let response = await fetch(url);
 
     let news = await response.json();
-    
+
     const newArticles = Array.isArray(news.articles) ? news.articles : [];
     if (showTopLoader) this.props.setProgress(80);
 
@@ -120,7 +110,6 @@ export default class News extends Component {
     if (showTopLoader) this.props.setProgress(100);
   };
 
-
   async componentDidMount() {
     this.updateTitle();
     this.previousSearchQuery = this.getSearchQueryFromURL();
@@ -131,7 +120,6 @@ export default class News extends Component {
       1,
       this.props.pageSize,
       false,
-      // this.props.searchQuery
     );
   }
 
@@ -142,7 +130,7 @@ export default class News extends Component {
     const currentCategory = this.props.category;
     const searchChanged = currentSearchQuery !== this.previousSearchQuery;
     const categoryChanged = currentCategory !== this.previousCategory;
-    
+
     if (searchChanged || categoryChanged) {
       this.previousCategory = currentCategory;
       this.previousSearchQuery = currentSearchQuery;
@@ -166,7 +154,6 @@ export default class News extends Component {
       this.state.page + 1,
       this.props.pageSize,
       false,
-      // this.props.searchQuery
     );
   };
 
@@ -174,18 +161,18 @@ export default class News extends Component {
     return document.documentElement.scrollHeight > window.innerHeight;
   };
 
-   render() {
+  render() {
     const searchText = this.getSearchQueryFromURL();
     const isSearching = searchText.trim() !== "";
-    const hasArticles = this.state.articles.length> 0 ;
-    const isApiError = this.state.apiStatus === "error"
+    const hasArticles = this.state.articles.length > 0;
+    const isApiError = this.state.apiStatus === "error";
     const heroArticle =
-        this.props.category == "general" && this.state.articles.length > 0
+      this.props.category == "general" && this.state.articles.length > 0
         ? this.state.articles[0]
         : null;
 
     const gridArticle =
-        this.props.category == "general"
+      this.props.category == "general"
         ? this.state.articles.slice(1)
         : this.state.articles;
 
@@ -200,8 +187,10 @@ export default class News extends Component {
           </section>
         )}
 
-        {this.props.category == "general" && !searchText && <CategoriesPreview /> }
-        
+        {this.props.category == "general" && !searchText && (
+          <CategoriesPreview />
+        )}
+
         <div className="sectionDivider" />
         {isSearching && (
           <div className="heroIntro">
@@ -229,40 +218,37 @@ export default class News extends Component {
           />
         )}
 
-      
-        
-         {isSearching && !hasArticles && !isApiError && !this.state.loading && (
+        {isSearching && !hasArticles && !isApiError && !this.state.loading && (
           <h2 className="text-center">
-            No result found for: {this.capitalizer(searchText)} 
+            No result found for: {this.capitalizer(searchText)}
           </h2>
         )}
 
-         {!isSearching && hasArticles && !isApiError  && (
+        {!isSearching && hasArticles && !isApiError && (
           <h2 className="text-center">
             NewsMonkey - Top {this.capitalizer(this.props.category)} Headlines
           </h2>
         )}
-        {
-          isApiError &&(<h3 className="text-center text-danger">
-  Too many requests or API erro. Please try again later.
-</h3>)
-        }
-
-        { hasArticles && (
-<InfiniteScroll
-          className="inf"
-          dataLength={this.state.articles?.length || 0}
-          next={this.fetchMoreData}
-          hasMore={
-            this.state.page <
-            Math.ceil(this.state.totalResults / this.props.pageSize)
-          }
-          loader={<Spinner />}
-        >
-          <NewsGrid articles={gridArticle} formatDate={this.formatDate} />
-        </InfiniteScroll>
+        {isApiError && (
+          <h3 className="text-center text-danger">
+            Too many requests or API erro. Please try again later.
+          </h3>
         )}
-        
+
+        {hasArticles && (
+          <InfiniteScroll
+            className="inf"
+            dataLength={this.state.articles?.length || 0}
+            next={this.fetchMoreData}
+            hasMore={
+              this.state.page <
+              Math.ceil(this.state.totalResults / this.props.pageSize)
+            }
+            loader={<Spinner />}
+          >
+            <NewsGrid articles={gridArticle} formatDate={this.formatDate} />
+          </InfiniteScroll>
+        )}
       </div>
     );
   }
