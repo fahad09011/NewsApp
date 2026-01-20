@@ -76,12 +76,13 @@ export default class News extends Component {
     //     let response = await fetch(
     //  `/api/news?category=${category}&page=${page}&pageSize=${pageSize}`    );
 
-    let url = `/api/news?&page=${page}&pageSize=${pageSize}`;
+     let url = `/api/news?&page=${page}&pageSize=${pageSize}`;
     if (searchQuery.trim() !== "") {
       url += `q=${encodeURIComponent(searchQuery)}`;
     } else {
       url += `&category=${category}`;
     }
+    
     let response = await fetch(url);
 
     let news = await response.json();
