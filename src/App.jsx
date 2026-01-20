@@ -36,8 +36,10 @@ export default class App extends Component {
     return (
       <>
         <Router>
+          <div className="appLayout">
           <NavbarWrapper />
           <TopLoadingBar progress={this.state.progress} />
+          <main className="mainContent">
           <Routes>
             <Route path="/about" element={<About />} />
             <Route
@@ -151,7 +153,9 @@ export default class App extends Component {
               }
             />
           </Routes>
+          </main>
           <Footer />
+          </div>
         </Router>
         <SpeedInsights />
         <Analytics />

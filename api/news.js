@@ -11,8 +11,6 @@ export default async function handler(req, res) {
     }
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
-    console.log("API KEY EXISTS:", !!process.env.NEWS_API_KEY);
 
     res.status(200).json(data);
   } catch (error) {

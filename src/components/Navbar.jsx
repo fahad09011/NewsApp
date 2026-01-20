@@ -26,7 +26,7 @@ export default class Navbar extends Component {
   render() {
     return (
       <>
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar sticky-top navbar-expand-lg ">
           <div className="container-fluid">
             <Link className="navbar-brand" to="/general">
               NewsMonkey
@@ -45,10 +45,9 @@ export default class Navbar extends Component {
             </button>
 
             <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
-              <ul className="navbar-nav gap-1 me-auto mb-2 mb-lg-0">
+              className="collapse navbar-collapse "
+              id="navbarSupportedContent">
+              <ul className="navbar-nav me-auto  mb-2 mb-lg-0 gap-1 ">
                 <li className="nav-item">
                   <NavLink className="nav-link " aria-current="page" to="/">
                     Home
@@ -104,27 +103,25 @@ export default class Navbar extends Component {
                     General
                   </NavLink>
                 </li>
+                
               </ul>
-
-              <form
-                className="form-inline my-2 my-lg-0"
-                onSubmit={this.handleSubmit}
-              >
-                <input
-                  className="form-control mr-sm-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                  value={this.state.searchBarText}
-                  onChange={this.handleSearchBarText}
-                />
-                <button
-                  className="btn btn-outline-success my-2 my-sm-0"
-                  type="submit"
+              <div className="search">
+                <form
+                  className="form-inline my-2 my-lg-0"
+                  onSubmit={this.handleSubmit}
                 >
-                  Search
-                </button>
-              </form>
+                  <input
+                    className="form-control mr-sm-2 flex"
+                    type="search"
+                    placeholder="Search news by title"
+                    aria-label="Search news by title"
+                    value={this.state.searchBarText}
+                    onChange={this.handleSearchBarText}
+                  />
+              
+
+                </form>
+              </div>
             </div>
           </div>
         </nav>

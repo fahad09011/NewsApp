@@ -10,7 +10,7 @@ export default class NewsGrid extends Component {
           .filter((article) => article)
           .map((article) => {
             return (
-              <div className="col-md-6 col-xl-4" key={article.url}>
+              <div className="col-12 col-md-6 col-xl-4" key={article.url}>
                 <NewsItem
                   title={article.title}
                   description={article.description}

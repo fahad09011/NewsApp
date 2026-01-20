@@ -76,13 +76,20 @@ export default class News extends Component {
     //     let response = await fetch(
     //  `/api/news?category=${category}&page=${page}&pageSize=${pageSize}`    );
 
-     let url = `/api/news?&page=${page}&pageSize=${pageSize}`;
-    if (searchQuery.trim() !== "") {
-      url += `&q=${encodeURIComponent(searchQuery)}`;
-    } else {
-      url += `&category=${category}`;
-    }
+    //  let url = `/api/news?&page=${page}&pageSize=${pageSize}`;
+    // if (searchQuery.trim() !== "") {
+    //   url += `&q=${encodeURIComponent(searchQuery)}`;
+    // } else {
+    //   url += `&category=${category}`;
+    // }
     
+       let url = "";
+    if (searchQuery.trim() !== "") {
+      url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(searchQuery)}&page=${page}&pageSize=${pageSize}&apiKey=0a1a360572b04f759b69bdd81a0474fa`;
+    } else {
+      url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=0a1a360572b04f759b69bdd81a0474fa&page=${page}&pageSize=${pageSize} `;
+    }
+
     let response = await fetch(url);
 
     let news = await response.json();
@@ -222,19 +229,15 @@ export default class News extends Component {
           />
         )}
 
-        {/* {this.state.articles.length > 0 && (
-          <h2 className="text-center">
-            NewsMonkey - Top {this.capitalizer(this.props.category)} Headlines
-          </h2>
-        )} */}
+      
         
-         {isSearching && hasArticles && isApiError && this.state.loading && (
+         {isSearching && !hasArticles && !isApiError && !this.state.loading && (
           <h2 className="text-center">
-            NewsMonkey - Top {this.capitalizer(this.props.category)} Headlines
+            No result found for: {this.capitalizer(searchText)} 
           </h2>
         )}
 
-         {!isSearching && !hasArticles && !isApiError && !this.state.loading && (
+         {!isSearching && hasArticles && !isApiError  && (
           <h2 className="text-center">
             NewsMonkey - Top {this.capitalizer(this.props.category)} Headlines
           </h2>

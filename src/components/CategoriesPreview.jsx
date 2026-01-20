@@ -33,6 +33,7 @@ export default class CategoriesPreview extends Component {
                 alt="categories"
               />
             </div>
+            
             <div className="categ3 ">
               <Link to="/health" className="previewButton">
                 Health

@@ -23,9 +23,27 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  width: 100%;
 }
 
+/*app component  */
+.appLayout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.mainContent{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 /* Navbar ===================== */
+.navbar{
+   margin: 0 auto;
+  width: 97%;
+  background-color: rgb(253 253 253);
+  padding: 10px 0 10px 0;
+}
 .nav-link {
   position: relative;
   width: fit-content;
@@ -120,7 +138,7 @@
   transition: transform 0.4s ease;
 }
 
-.heroImageContainer::before {
+.heroImageContainer::before , .imgcontainer::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -130,11 +148,11 @@
   transition: opacity 0.3s ease;
 }
 
-.heroImageContainer:hover::before {
-  opacity: 1;
+.heroImageContainer:hover::before , .newsReadMoreButton:hover .imgcontainer::before{
+  opacity: 0.7;
 }
 
-.heroImageContainer:hover .heroImage {
+.heroImageContainer:hover .heroImage , .newsReadMoreButton:hover .card-img-top  {
   transform: scale(1.03);
 }
 
@@ -370,7 +388,6 @@
   color: var(--text-secondary);
   font-size: 0.95rem;
   line-height: 1.5;
-
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -378,6 +395,8 @@
 }
 
 .imgcontainer {
+position: relative;
+  overflow: var(--hidden-over-flow);
   height: 200px;
   overflow: var(--hidden-over-flow);
 }
@@ -386,6 +405,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+    transition: transform 0.4s ease;
+
 }
 
 .news-card-body {
@@ -395,12 +416,15 @@
 }
 
 .newsReadMoreButton {
+  position: relative;
+  overflow: var(--hidden-over-flow);
   text-decoration: none;
   color: inherit;
 }
 
 
 /* About component */
+
 .container h1 {
   font-weight: 700;
 }
@@ -470,12 +494,10 @@
 
 
 /* media query */
-@media (max-width: 850px) {
-  .heroCard {
-    flex-direction: column;
-  }
+@media (max-width: 768px) {
+  
 }
-@media (max-width: 840px) {
+@media (max-width: 768px) {
   .categoryPreviewContainer {
     display: flex;
     flex-direction: column;
@@ -485,6 +507,9 @@
   .footerContainer {
     flex-direction: column;
     text-align: center;
+  }
+  .heroCard {
+    flex-direction: column;
   }
 
   .footerRight {
