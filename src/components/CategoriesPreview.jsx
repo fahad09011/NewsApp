@@ -14,7 +14,7 @@ export default class CategoriesPreview extends Component {
         <section className="categoryPreviewSection">
           <div className="categoryPreviewContainer">
             <div className="categ1 ">
-             <Link to="/sports" className="previewButton">
+              <Link to="/sports" className="previewButton">
                 Sports
               </Link>
               <img
@@ -24,7 +24,7 @@ export default class CategoriesPreview extends Component {
               />
             </div>
             <div className="categ2 ">
-             <Link to="/politics" className="previewButton">
+              <Link to="/politics" className="previewButton">
                 Politics
               </Link>
               <img
@@ -34,7 +34,7 @@ export default class CategoriesPreview extends Component {
               />
             </div>
             <div className="categ3 ">
-             <Link to="/health" className="previewButton">
+              <Link to="/health" className="previewButton">
                 Health
               </Link>
               <img
@@ -45,7 +45,7 @@ export default class CategoriesPreview extends Component {
             </div>
 
             <div className="categ4 ">
-             <Link to="/technology" className="previewButton">
+              <Link to="/technology" className="previewButton">
                 Technology
               </Link>
               <img
@@ -55,7 +55,7 @@ export default class CategoriesPreview extends Component {
               />
             </div>
             <div className="categ5 ">
-             <Link to="/business" className="previewButton">
+              <Link to="/business" className="previewButton">
                 Business
               </Link>
               <img

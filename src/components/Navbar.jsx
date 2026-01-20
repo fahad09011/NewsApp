@@ -3,25 +3,26 @@ import { NavLink, Link } from "react-router-dom";
 import "../App.css";
 
 export default class Navbar extends Component {
-   constructor(props) {
+  constructor(props) {
     super(props);
 
     this.state = {
-      searchBarText:"",
+      searchBarText: "",
     };
   }
 
-    handleSearchBarText = (event) =>{
-      this.setState({searchBarText: event.target.value})
-      console.log(this.state.searchBarText);
-    }
-   
-        handleSubmit = (form) => {
-      form.preventDefault();
-      this.props.navigate(`/search?q=${encodeURIComponent(this.state.searchBarText)}`)
-      // this.props.onSearch(this.state.searchBarText)
-    }
-    
+  handleSearchBarText = (event) => {
+    this.setState({ searchBarText: event.target.value });
+    console.log(this.state.searchBarText);
+  };
+
+  handleSubmit = (form) => {
+    form.preventDefault();
+    this.props.navigate(
+      `/search?q=${encodeURIComponent(this.state.searchBarText)}`,
+    );
+  };
+
   render() {
     return (
       <>
@@ -105,12 +106,25 @@ export default class Navbar extends Component {
                 </li>
               </ul>
 
-
-             <form className="form-inline my-2 my-lg-0" onSubmit={this.handleSubmit}>
-      <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value={this.state.searchBarText} onChange={this.handleSearchBarText}/>
-      <button className="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
-    </form>
-
+              <form
+                className="form-inline my-2 my-lg-0"
+                onSubmit={this.handleSubmit}
+              >
+                <input
+                  className="form-control mr-sm-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  value={this.state.searchBarText}
+                  onChange={this.handleSearchBarText}
+                />
+                <button
+                  className="btn btn-outline-success my-2 my-sm-0"
+                  type="submit"
+                >
+                  Search
+                </button>
+              </form>
             </div>
           </div>
         </nav>

@@ -17,28 +17,28 @@ export default class HeroNews extends Component {
         <div className="heroNewsContainer">
           <div className="heroCard heroCardCoontainer">
             <div className="heroImageContainer">
-            <img src={imgURL ? imgURL : image} className="heroImage" alt="image" />
+              <img
+                src={imgURL ? imgURL : image}
+                className="heroImage"
+                alt="image"
+              />
               <a
                 href={readMore}
                 target="_blank"
                 className="btn btn-sm btn-primary readMoreButton HeroreadMoreButton"
               >
                 Read More
-              </a></div>
+              </a>
+            </div>
             <div className="card-body HeroCardBbody">
-              <h5 className="card-title heroCardTitle">
-                {title}
-              </h5>
-              <p className="card-text heroCardDescription">
-                {description}
-              </p>
+              <h5 className="card-title heroCardTitle">{title}</h5>
+              <p className="card-text heroCardDescription">{description}</p>
               <p className="card-text">
                 <small className="text-muted">
-                 By {author ? author : "Unknown"} on {publishedDate} <br/>Source: {source ? source : "Unknown"}
+                  By {author ? author : "Unknown"} on {publishedDate} <br />
+                  Source: {source ? source : "Unknown"}
                 </small>
               </p>
-
-            
             </div>
           </div>
         </div>

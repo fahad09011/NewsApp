@@ -1,11 +1,14 @@
 export default async function handler(req, res) {
-  const { category = "general", page = 1, pageSize = 5 } = req.query;
+  const { category = "general", page = 1, pageSize = 8, q = "" } = req.query;
 
   try {
-    const response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=us&category=${category}&page=${page}&pageSize=${pageSize}&apiKey=${process.env.NEWS_API_KEY}`
-    );
-
+    let url = "" ;
+    if (q.trim() !== "") {
+      url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(q)}&page=${page}&pageSize=${pageSize}&apiKey=${process.env.NEWS_API_KEY}`;
+    } else {
+     url =  `https://newsapi.org/v2/top-headlines?country=us&category=${category}&page=${page}&pageSize=${pageSize}&apiKey=${process.env.NEWS_API_KEY}` 
+    }
+    const response = await fetch(url);
     const data = await response.json();
 
     res.status(200).json(data);
