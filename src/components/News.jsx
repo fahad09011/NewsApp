@@ -81,7 +81,6 @@ export default class News extends Component {
     }
 
     let response = await fetch(url);
-
     let news = await response.json();
 
     const newArticles = Array.isArray(news.articles) ? news.articles : [];

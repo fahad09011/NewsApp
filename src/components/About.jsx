@@ -2,6 +2,21 @@ import React, { Component } from "react";
 import "../App.css";
 
 export default class About extends Component {
+  
+componentDidMount(){
+  this.props.setProgress(30);
+  setTimeout(() => {
+      this.props.setProgress(100);
+
+  }, 300);
+}
+componentWillUnmount(){
+  this.props.setProgress(30);
+  setTimeout(() => {
+      this.props.setProgress(100);
+
+  }, 300);
+}
   render() {
     return (
       <div className="container my-5">
@@ -44,6 +59,7 @@ export default class About extends Component {
           NewsMonkey is a personal/educational project created for learning and
           demonstration purposes only.
         </p>
+
       </div>
     );
   }

@@ -41,7 +41,7 @@ export default class App extends Component {
           <TopLoadingBar progress={this.state.progress} />
           <main className="mainContent">
           <Routes>
-            <Route path="/about" element={<About />} />
+            <Route path="/about" element={<About setProgress={this.setProgress} />} />
             <Route
               path="/search"
               element={
